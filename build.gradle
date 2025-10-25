@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.6'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.subcharacter'
+version = '0.0.1-SNAPSHOT'
+description = 'db-to-csv-mcp'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+dependencies {
+    implementation 'org.springframework.ai:spring-ai-bom:1.0.0'
+    implementation 'org.springframework.ai:spring-ai-starter-mcp-server:1.0.0' // STDIO MCP 서버
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation("org.apache.commons:commons-csv:1.11.0")
+}
+
+configurations.all {
+    exclude group: "org.codehaus.janino", module: "janino"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

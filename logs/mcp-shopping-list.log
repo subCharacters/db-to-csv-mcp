@@ -1,0 +1,24 @@
+2025-10-25T01:05:05.284+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] c.s.mcp_db_to_csv.McpDbToCsvApplication  : Starting McpDbToCsvApplication using Java 17 with PID 30088 (C:\Users\wldns\IdeaProjects\MCP_DB_TO_CSV\build\classes\java\main started by wldns in C:\Users\wldns\IdeaProjects\MCP_DB_TO_CSV)
+2025-10-25T01:05:05.286+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] c.s.mcp_db_to_csv.McpDbToCsvApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-10-25T01:05:05.782+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-25T01:05:05.935+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:e805bd8a-ed2a-4c39-88f2-ec218125e772 user=SA
+2025-10-25T01:05:05.937+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-25T01:05:05.986+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-25T01:05:05.987+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-25T01:05:05.987+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-25T01:05:05.988+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-25T01:05:06.112+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [main] c.s.mcp_db_to_csv.McpDbToCsvApplication  : Started McpDbToCsvApplication in 1.241 seconds (process running for 1.829)
+2025-10-25T01:05:29.270+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-25T01:05:29.271+09:00  INFO 30088 --- [MCP_DB_TO_CSV] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-25T01:06:02.652+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] c.s.m.McpDbToCsvApplicationTests         : Starting McpDbToCsvApplicationTests using Java 17 with PID 40056 (started by wldns in C:\Users\wldns\IdeaProjects\MCP_DB_TO_CSV)
+2025-10-25T01:06:02.654+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] c.s.m.McpDbToCsvApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2025-10-25T01:06:03.288+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-25T01:06:03.421+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:e72a621f-2682-4cdd-bc3a-e4f77d86f685 user=SA
+2025-10-25T01:06:03.424+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-25T01:06:03.488+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-25T01:06:03.489+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-25T01:06:03.489+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-25T01:06:03.490+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-25T01:06:03.710+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [Test worker] c.s.m.McpDbToCsvApplicationTests         : Started McpDbToCsvApplicationTests in 1.288 seconds (process running for 2.179)
+2025-10-25T01:06:04.401+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-25T01:06:04.404+09:00  INFO 40056 --- [MCP_DB_TO_CSV] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

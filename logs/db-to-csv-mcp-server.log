@@ -1,0 +1,78 @@
+2025-10-26T01:20:19.239+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] c.s.d.McpDbToCsvApplicationTests         : Starting McpDbToCsvApplicationTests using Java 17.0.16 with PID 1294279 (started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:20:19.264+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] c.s.d.McpDbToCsvApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:20:27.254+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:20:27.258+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:20:27.259+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:20:27.260+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:20:27.260+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:20:29.922+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:20:31.983+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:20:32.002+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:20:32.486+09:00  INFO 1294279 --- [db_to_csv_mcp] [Test worker] c.s.d.McpDbToCsvApplicationTests         : Started McpDbToCsvApplicationTests in 15.369 seconds (process running for 19.615)
+2025-10-26T01:20:37.059+09:00  INFO 1294279 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-26T01:20:37.061+09:00  INFO 1294279 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-26T01:24:58.483+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Starting DbToCsvMcpApplicationTests using Java 17.0.16 with PID 1303262 (started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:24:58.489+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:25:07.817+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:25:07.818+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:25:07.819+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:25:07.820+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:25:07.820+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:25:09.144+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:25:11.503+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:25:11.523+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:25:12.023+09:00  INFO 1303262 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Started DbToCsvMcpApplicationTests in 15.613 seconds (process running for 19.723)
+2025-10-26T01:25:16.780+09:00  INFO 1303262 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-26T01:25:16.782+09:00  INFO 1303262 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-26T01:30:02.502+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Starting DbToCsvMcpApplicationTests using Java 17.0.16 with PID 1312511 (started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:30:02.509+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:30:12.047+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:30:12.049+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:30:12.049+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:30:12.050+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:30:12.050+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:30:13.075+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:30:15.007+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:30:15.022+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:30:15.595+09:00  INFO 1312511 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Started DbToCsvMcpApplicationTests in 15.396 seconds (process running for 20.397)
+2025-10-26T01:30:20.181+09:00  INFO 1312511 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-26T01:30:20.182+09:00  INFO 1312511 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-26T01:32:44.714+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Starting DbToCsvMcpApplicationTests using Java 17.0.16 with PID 1317718 (started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:32:44.717+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:32:52.014+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:32:52.015+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:32:52.016+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:32:52.016+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:32:52.017+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:32:53.266+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:32:55.266+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:32:55.287+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:32:55.790+09:00  INFO 1317718 --- [db_to_csv_mcp] [Test worker] c.s.d.DbToCsvMcpApplicationTests         : Started DbToCsvMcpApplicationTests in 13.127 seconds (process running for 24.41)
+2025-10-26T01:33:02.711+09:00  INFO 1317718 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-26T01:33:02.713+09:00  INFO 1317718 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-10-26T01:34:31.819+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] c.s.db_to_csv_mcp.DbToCsvMcpApplication  : Starting DbToCsvMcpApplication v0.0.1-SNAPSHOT using Java 17.0.16 with PID 1321232 (/mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp-0.0.1-SNAPSHOT.jar started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:34:31.826+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] c.s.db_to_csv_mcp.DbToCsvMcpApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:34:33.479+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:34:33.481+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:34:33.481+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:34:33.482+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:34:33.482+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:34:33.560+09:00  INFO 1321232 --- [db_to_csv_mcp] [pool-2-thread-1] i.m.server.McpAsyncServer                : Client initialize request - Protocol: 2025-06-18, Capabilities: ClientCapabilities[experimental=null, roots=null, sampling=null], Info: Implementation[name=codex-mcp-client, version=0.46.0]
+2025-10-26T01:34:33.564+09:00  WARN 1321232 --- [db_to_csv_mcp] [pool-2-thread-1] i.m.server.McpAsyncServer                : Client requested unsupported protocol version: 2025-06-18, so the server will suggest the 2024-11-05 version instead
+2025-10-26T01:34:33.702+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:34:34.000+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:34:34.003+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:34:34.114+09:00  INFO 1321232 --- [db_to_csv_mcp] [main] c.s.db_to_csv_mcp.DbToCsvMcpApplication  : Started DbToCsvMcpApplication in 3.079 seconds (process running for 3.835)
+2025-10-26T01:37:46.220+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] c.s.d.QueryServiceExportTest             : Starting QueryServiceExportTest using Java 17.0.16 with PID 1327587 (started by wldns in /mnt/c/Users/wldns/codex-workspace/db-to-csv-mcp)
+2025-10-26T01:37:46.225+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] c.s.d.QueryServiceExportTest             : No active profile set, falling back to 1 default profile: "default"
+2025-10-26T01:37:53.832+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable tools capabilities, notification: true
+2025-10-26T01:37:53.833+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Registered tools: 1
+2025-10-26T01:37:53.833+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable resources capabilities, notification: true
+2025-10-26T01:37:53.834+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable prompts capabilities, notification: true
+2025-10-26T01:37:53.834+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] o.s.a.m.s.a.McpServerAutoConfiguration   : Enable completions capabilities
+2025-10-26T01:37:54.985+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-10-26T01:37:57.082+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:demo user=SA
+2025-10-26T01:37:57.099+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-10-26T01:37:57.604+09:00  INFO 1327587 --- [db_to_csv_mcp] [Test worker] c.s.d.QueryServiceExportTest             : Started QueryServiceExportTest in 13.542 seconds (process running for 19.822)
+2025-10-26T01:38:02.956+09:00  INFO 1327587 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-10-26T01:38:02.957+09:00  INFO 1327587 --- [db_to_csv_mcp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
