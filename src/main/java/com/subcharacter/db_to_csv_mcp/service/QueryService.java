@@ -56,38 +56,34 @@ public class QueryService {
             throw new IllegalArgumentException("Database username is required.");
         }
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(buildDataSource(username, password));
-        List<Map<String, Object>> rows;
-        try {
-            rows = executeReadOnlyQuery(sql, jdbcTemplate);
-        } catch (DataAccessException e) {
-            throw new IllegalStateException(
-                    "Database rejected the read-only query: " + e.getMostSpecificCause().getMessage(), e);
-        }
-        if (rows.isEmpty()) return ""; // 빈 결과 → 빈 CSV
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(buildConfiguredDataSource(username, password));
+        return executeWithTemplate(sql, quoteHeaders, jdbcTemplate);
+    }
 
-        // CSV 생성
-        StringWriter out = new StringWriter();
-        var headers = rows.get(0).keySet().toArray(new String[0]);
-        CSVFormat dataFormat = CSVFormat.DEFAULT;
-        CSVFormat headerFormat = quoteHeaders
-                ? dataFormat.builder().setQuoteMode(QuoteMode.ALL).build()
-                : dataFormat;
-        String recordSeparator = dataFormat.getRecordSeparator() != null
-                ? dataFormat.getRecordSeparator()
-                : System.lineSeparator();
-        out.append(headerFormat.format((Object[]) headers)).append(recordSeparator);
-
-        try (CSVPrinter printer = new CSVPrinter(out, dataFormat)) {
-            for (var row : rows) {
-                Object[] vals = new Object[headers.length];
-                for (int i = 0; i < headers.length; i++) vals[i] = row.get(headers[i]);
-                printer.printRecord(vals);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("CSV 생성 실패: " + e.getMessage(), e);
-        }
-        return out.toString();
+    @Tool(
+            name = "executeQueryWithConnection",
+            description = """
+            읽기 전용 SQL을 외부 데이터베이스 연결 정보와 함께 실행하고 결과를 CSV로 반환합니다.
+            매개변수:
+            - url: JDBC 연결 문자열
+            - driverClassName: JDBC 드라이버 클래스 (선택)
+            - sql: SELECT 전용 쿼리
+            - username: 데이터베이스 사용자명
+            - password: 데이터베이스 비밀번호
+            - quoteHeaders: 헤더를 큰따옴표로 감쌀지 여부
+            """
+    )
+    public String executeQueryWithConnection(ExternalQueryRequest request) {
+        validateReadOnlySql(request.sql());
+        validateExternalConnection(request);
+        DriverManagerDataSource dataSource = createDataSource(
+                request.url(),
+                request.driverClassName(),
+                request.username(),
+                request.password()
+        );
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        return executeWithTemplate(request.sql(), request.quoteHeaders(), jdbcTemplate);
     }
 
     private void validateReadOnlySql(String sql) {
@@ -107,6 +103,43 @@ public class QueryService {
             throw new IllegalArgumentException(SELECT_ONLY_MESSAGE);
         }
         ensureSingleStatement(normalized);
+    }
+
+    private String executeWithTemplate(String sql, boolean quoteHeaders, JdbcTemplate jdbcTemplate) {
+        List<Map<String, Object>> rows;
+        try {
+            rows = executeReadOnlyQuery(sql, jdbcTemplate);
+        } catch (DataAccessException e) {
+            throw new IllegalStateException(
+                    "Database rejected the read-only query: " + e.getMostSpecificCause().getMessage(), e);
+        }
+        if (rows.isEmpty()) {
+            return "";
+        }
+
+        StringWriter out = new StringWriter();
+        var headers = rows.get(0).keySet().toArray(new String[0]);
+        CSVFormat dataFormat = CSVFormat.DEFAULT;
+        CSVFormat headerFormat = quoteHeaders
+                ? dataFormat.builder().setQuoteMode(QuoteMode.ALL).build()
+                : dataFormat;
+        String recordSeparator = dataFormat.getRecordSeparator() != null
+                ? dataFormat.getRecordSeparator()
+                : System.lineSeparator();
+        out.append(headerFormat.format((Object[]) headers)).append(recordSeparator);
+
+        try (CSVPrinter printer = new CSVPrinter(out, dataFormat)) {
+            for (var row : rows) {
+                Object[] vals = new Object[headers.length];
+                for (int i = 0; i < headers.length; i++) {
+                    vals[i] = row.get(headers[i]);
+                }
+                printer.printRecord(vals);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("CSV 생성 실패: " + e.getMessage(), e);
+        }
+        return out.toString();
     }
 
     private List<Map<String, Object>> executeReadOnlyQuery(String sql, JdbcTemplate jdbcTemplate) {
@@ -225,6 +258,15 @@ public class QueryService {
         }
     }
 
+    private void validateExternalConnection(ExternalQueryRequest request) {
+        if (!StringUtils.hasText(request.url())) {
+            throw new IllegalArgumentException("Database URL is required.");
+        }
+        if (!StringUtils.hasText(request.username())) {
+            throw new IllegalArgumentException("Database username is required.");
+        }
+    }
+
     private ReadOnlySettings enableReadOnly(Connection connection) throws SQLException {
         boolean previousReadOnly = false;
         boolean previousKnown = false;
@@ -257,20 +299,41 @@ public class QueryService {
         }
     }
 
-    private DriverManagerDataSource buildDataSource(String username, String password) {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        String driverClassName = dataSourceProperties.determineDriverClassName();
-        if (StringUtils.hasText(driverClassName)) {
-            dataSource.setDriverClassName(driverClassName);
-        }
+    private DriverManagerDataSource buildConfiguredDataSource(String username, String password) {
         String url = dataSourceProperties.determineUrl();
         if (!StringUtils.hasText(url)) {
             throw new IllegalStateException("Database URL is not configured.");
+        }
+        String driverClassName = dataSourceProperties.determineDriverClassName();
+        return createDataSourceInternal(url, driverClassName, username, password);
+    }
+
+    private DriverManagerDataSource createDataSource(String url, String driverClassName, String username, String password) {
+        if (!StringUtils.hasText(url)) {
+            throw new IllegalArgumentException("Database URL is required.");
+        }
+        return createDataSourceInternal(url, driverClassName, username, password);
+    }
+
+    private DriverManagerDataSource createDataSourceInternal(String url, String driverClassName, String username, String password) {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        if (StringUtils.hasText(driverClassName)) {
+            dataSource.setDriverClassName(driverClassName);
         }
         dataSource.setUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         return dataSource;
+    }
+
+    public record ExternalQueryRequest(
+            String url,
+            String driverClassName,
+            String sql,
+            String username,
+            String password,
+            boolean quoteHeaders
+    ) {
     }
 
     private record ReadOnlySettings(boolean applied, boolean restorable, boolean previousReadOnly) {

@@ -69,4 +69,36 @@ class QueryServiceTests {
                 .isThrownBy(() -> ReflectionTestUtils.invokeMethod(
                         queryService, "validateReadOnlySql", "SELECT q'[drop table orders]' AS txt FROM dual"));
     }
+
+    @Test
+    void executeQueryWithConnectionUsesProvidedCredentials() {
+        QueryService.ExternalQueryRequest request = new QueryService.ExternalQueryRequest(
+                "jdbc:h2:mem:demo;MODE=PostgreSQL;DB_CLOSE_DELAY=-1",
+                "org.h2.Driver",
+                "SELECT name FROM customers ORDER BY id",
+                "sa",
+                "",
+                false
+        );
+
+        String result = queryService.executeQueryWithConnection(request);
+
+        assertThat(result).contains("NAME").contains("Alice Kim");
+    }
+
+    @Test
+    void executeQueryWithConnectionValidatesRequiredUrl() {
+        QueryService.ExternalQueryRequest request = new QueryService.ExternalQueryRequest(
+                " ",
+                null,
+                "SELECT 1",
+                "sa",
+                "",
+                false
+        );
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> queryService.executeQueryWithConnection(request))
+                .withMessageContaining("Database URL is required.");
+    }
 }
