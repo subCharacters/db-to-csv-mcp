@@ -1,7 +1,6 @@
 package com.subcharacter.db_to_csv_mcp.service;
 
 import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.QuoteMode;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -47,17 +46,18 @@ public class QueryService {
             - username: 데이터베이스 사용자명
             - password: 데이터베이스 비밀번호
             - quoteHeaders: 헤더를 큰따옴표로 감쌀지 여부
+            - valueQuoteMode: 본문 값 따옴표 모드 (1: 기본, 2: 문자열만, 3: 전체)
             보안: INSERT/UPDATE/DELETE/DDL은 차단됩니다.
             """
     )
-    public String executeQuery(String sql, String username, String password, boolean quoteHeaders) {
-        validateReadOnlySql(sql);
-        if (!StringUtils.hasText(username)) {
+    public String executeQuery(ConfiguredQueryRequest request) {
+        validateReadOnlySql(request.sql());
+        if (!StringUtils.hasText(request.username())) {
             throw new IllegalArgumentException("Database username is required.");
         }
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(buildConfiguredDataSource(username, password));
-        return executeWithTemplate(sql, quoteHeaders, jdbcTemplate);
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(buildConfiguredDataSource(request.username(), request.password()));
+        ValueQuoteMode valueQuoteMode = ValueQuoteMode.fromCode(request.valueQuoteMode());
+        return executeWithTemplate(request.sql(), request.quoteHeaders(), valueQuoteMode, jdbcTemplate);
     }
 
     @Tool(
@@ -71,6 +71,7 @@ public class QueryService {
             - username: 데이터베이스 사용자명
             - password: 데이터베이스 비밀번호
             - quoteHeaders: 헤더를 큰따옴표로 감쌀지 여부
+            - valueQuoteMode: 본문 값 따옴표 모드 (1: 기본, 2: 문자열만, 3: 전체)
             """
     )
     public String executeQueryWithConnection(ExternalQueryRequest request) {
@@ -83,7 +84,8 @@ public class QueryService {
                 request.password()
         );
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        return executeWithTemplate(request.sql(), request.quoteHeaders(), jdbcTemplate);
+        ValueQuoteMode valueQuoteMode = ValueQuoteMode.fromCode(request.valueQuoteMode());
+        return executeWithTemplate(request.sql(), request.quoteHeaders(), valueQuoteMode, jdbcTemplate);
     }
 
     private void validateReadOnlySql(String sql) {
@@ -105,7 +107,7 @@ public class QueryService {
         ensureSingleStatement(normalized);
     }
 
-    private String executeWithTemplate(String sql, boolean quoteHeaders, JdbcTemplate jdbcTemplate) {
+    private String executeWithTemplate(String sql, boolean quoteHeaders, ValueQuoteMode valueQuoteMode, JdbcTemplate jdbcTemplate) {
         List<Map<String, Object>> rows;
         try {
             rows = executeReadOnlyQuery(sql, jdbcTemplate);
@@ -118,26 +120,18 @@ public class QueryService {
         }
 
         StringWriter out = new StringWriter();
-        var headers = rows.get(0).keySet().toArray(new String[0]);
-        CSVFormat dataFormat = CSVFormat.DEFAULT;
+        String[] headers = rows.get(0).keySet().toArray(new String[0]);
+        CSVFormat baseFormat = CSVFormat.DEFAULT;
         CSVFormat headerFormat = quoteHeaders
-                ? dataFormat.builder().setQuoteMode(QuoteMode.ALL).build()
-                : dataFormat;
-        String recordSeparator = dataFormat.getRecordSeparator() != null
-                ? dataFormat.getRecordSeparator()
+                ? baseFormat.builder().setQuoteMode(QuoteMode.ALL).build()
+                : baseFormat;
+        String recordSeparator = baseFormat.getRecordSeparator() != null
+                ? baseFormat.getRecordSeparator()
                 : System.lineSeparator();
         out.append(headerFormat.format((Object[]) headers)).append(recordSeparator);
 
-        try (CSVPrinter printer = new CSVPrinter(out, dataFormat)) {
-            for (var row : rows) {
-                Object[] vals = new Object[headers.length];
-                for (int i = 0; i < headers.length; i++) {
-                    vals[i] = row.get(headers[i]);
-                }
-                printer.printRecord(vals);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("CSV 생성 실패: " + e.getMessage(), e);
+        for (var row : rows) {
+            out.append(formatRow(row, headers, valueQuoteMode)).append(recordSeparator);
         }
         return out.toString();
     }
@@ -258,6 +252,18 @@ public class QueryService {
         }
     }
 
+    private String formatRow(Map<String, Object> row, String[] headers, ValueQuoteMode valueQuoteMode) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < headers.length; i++) {
+            if (i > 0) {
+                builder.append(',');
+            }
+            Object value = row.get(headers[i]);
+            builder.append(valueQuoteMode.renderValue(value));
+        }
+        return builder.toString();
+    }
+
     private void validateExternalConnection(ExternalQueryRequest request) {
         if (!StringUtils.hasText(request.url())) {
             throw new IllegalArgumentException("Database URL is required.");
@@ -326,14 +332,80 @@ public class QueryService {
         return dataSource;
     }
 
+    public record ConfiguredQueryRequest(
+            String sql,
+            String username,
+            String password,
+            boolean quoteHeaders,
+            int valueQuoteMode
+    ) {
+    }
+
     public record ExternalQueryRequest(
             String url,
             String driverClassName,
             String sql,
             String username,
             String password,
-            boolean quoteHeaders
+            boolean quoteHeaders,
+            int valueQuoteMode
     ) {
+    }
+
+    private enum ValueQuoteMode {
+        NONE(1) {
+            @Override
+            boolean shouldQuote(boolean numeric, String raw) {
+                return containsSpecial(raw);
+            }
+        },
+        STRINGS_ONLY(2) {
+            @Override
+            boolean shouldQuote(boolean numeric, String raw) {
+                return !numeric || containsSpecial(raw);
+            }
+        },
+        ALL(3) {
+            @Override
+            boolean shouldQuote(boolean numeric, String raw) {
+                return true;
+            }
+        };
+
+        private final int code;
+
+        ValueQuoteMode(int code) {
+            this.code = code;
+        }
+
+        String renderValue(Object value) {
+            if (value == null) {
+                return "";
+            }
+            String raw = value.toString();
+            boolean numeric = value instanceof Number;
+            if (!shouldQuote(numeric, raw)) {
+                return raw;
+            }
+            return "\"" + raw.replace("\"", "\"\"") + "\"";
+        }
+
+        boolean shouldQuote(boolean numeric, String raw) {
+            return false;
+        }
+
+        static ValueQuoteMode fromCode(int code) {
+            for (ValueQuoteMode mode : values()) {
+                if (mode.code == code) {
+                    return mode;
+                }
+            }
+            return NONE;
+        }
+
+        private static boolean containsSpecial(String raw) {
+            return raw.contains(",") || raw.contains("\"") || raw.contains("\n") || raw.contains("\r");
+        }
     }
 
     private record ReadOnlySettings(boolean applied, boolean restorable, boolean previousReadOnly) {

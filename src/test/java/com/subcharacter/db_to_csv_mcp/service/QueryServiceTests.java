@@ -18,39 +18,49 @@ class QueryServiceTests {
 
     @Test
     void executeQueryAllowsWithClauseSelect() {
-        String result = queryService.executeQuery("""
+        QueryService.ConfiguredQueryRequest request = configuredRequest("""
                 WITH price_list AS (SELECT id, name FROM items)
                 SELECT name FROM price_list WHERE id = 1
-                """, "sa", "", false);
+                """);
+        String result = queryService.executeQuery(request);
 
         assertThat(result).contains("NAME").contains("apple");
     }
 
     @Test
     void executeQueryAllowsSelectWithKeywordInsideLiteral() {
-        String result = queryService.executeQuery("SELECT 'drop table orders' AS text", "sa", "", false);
+        QueryService.ConfiguredQueryRequest request =
+                configuredRequest("SELECT 'drop table orders' AS text");
+        String result = queryService.executeQuery(request);
 
         assertThat(result).contains("TEXT").contains("drop table orders");
     }
 
     @Test
     void executeQueryReturnsEmptyCsvWhenFilterRemovesRows() {
-        String result = queryService.executeQuery(
-                "SELECT status FROM orders WHERE status = 'UPDATE'", "sa", "", false);
+        QueryService.ConfiguredQueryRequest request =
+                configuredRequest("SELECT status FROM orders WHERE status = 'UPDATE'");
+        String result = queryService.executeQuery(request);
 
         assertThat(result).isEmpty();
     }
 
     @Test
     void executeQueryRejectsMutatingStatements() {
+        QueryService.ConfiguredQueryRequest request =
+                configuredRequest("UPDATE orders SET status = 'PAID'");
+
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> queryService.executeQuery("UPDATE orders SET status = 'PAID'", "sa", "", false))
+                .isThrownBy(() -> queryService.executeQuery(request))
                 .withMessageContaining("Only SELECT queries are allowed.");
     }
 
     @Test
     void executeQueryProvidesMeaningfulMessageOnDatabaseError() {
-        assertThatThrownBy(() -> queryService.executeQuery("SELECT * FROM missing_table", "sa", "", false))
+        QueryService.ConfiguredQueryRequest request =
+                configuredRequest("SELECT * FROM missing_table");
+
+        assertThatThrownBy(() -> queryService.executeQuery(request))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("Database rejected the read-only query")
                 .hasMessageContaining("missing_table");
@@ -78,7 +88,8 @@ class QueryServiceTests {
                 "SELECT name FROM customers ORDER BY id",
                 "sa",
                 "",
-                false
+                false,
+                1
         );
 
         String result = queryService.executeQueryWithConnection(request);
@@ -94,11 +105,46 @@ class QueryServiceTests {
                 "SELECT 1",
                 "sa",
                 "",
-                false
+                false,
+                1
         );
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> queryService.executeQueryWithConnection(request))
                 .withMessageContaining("Database URL is required.");
+    }
+
+    @Test
+    void executeQueryAppliesStringsOnlyQuoteMode() {
+        QueryService.ConfiguredQueryRequest request = new QueryService.ConfiguredQueryRequest(
+                "SELECT name, price FROM items WHERE id = 1",
+                "sa",
+                "",
+                false,
+                2
+        );
+
+        String result = queryService.executeQuery(request);
+
+        assertThat(result).contains("\"apple\",100");
+    }
+
+    @Test
+    void executeQueryAppliesAllValueQuoteMode() {
+        QueryService.ConfiguredQueryRequest request = new QueryService.ConfiguredQueryRequest(
+                "SELECT name, price FROM items WHERE id = 1",
+                "sa",
+                "",
+                false,
+                3
+        );
+
+        String result = queryService.executeQuery(request);
+
+        assertThat(result).contains("\"apple\",\"100\"");
+    }
+
+    private QueryService.ConfiguredQueryRequest configuredRequest(String sql) {
+        return new QueryService.ConfiguredQueryRequest(sql, "sa", "", false, 1);
     }
 }

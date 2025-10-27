@@ -60,4 +60,4 @@
 - `spring.ai.mcp.server.tool-response-mime-type.executeQuery`는 실제 응답 형식과 일치해야 하므로 CSV 외 포맷으로 전환 시 반드시 갱신하세요.
 - 데모 데이터는 메모리 H2로 제공되며, 외부 데이터 소스를 추가할 경우 `application.properties`와 이 가이드에 자격 증명과 연결 문자열을 문서화합니다.
 - MySQL·Oracle 등 외부 RDBMS로 전환할 때는 `spring.datasource.*` 속성과 초기 스키마를 해당 방언에 맞게 준비하세요. `QueryService`는 식별자/리터럴 규칙을 확장하고 드라이버가 `setReadOnly`를 지원하지 않는 경우에도 안전하게 동작하도록 설계되어 있습니다.
-- 외부 DB에 직접 접속해야 하는 경우 새 MCP 툴 `executeQueryWithConnection`을 사용해 `url`, `driverClassName`, `username`, `password`, `sql`, `quoteHeaders`를 입력하면 됩니다. 모든 검증 로직은 기본 툴과 동일하게 적용됩니다.
+- MCP 툴 `executeQuery`와 `executeQueryWithConnection`은 모두 `quoteHeaders`와 `valueQuoteMode`를 받아 CSV 따옴표 정책을 제어합니다. `valueQuoteMode`는 `1`(기본: 필요 시만 따옴표), `2`(문자열만 따옴표), `3`(모든 값 따옴표) 중 하나를 사용하세요. 외부 DB에 직접 접속해야 하는 경우 `executeQueryWithConnection`으로 `url`, `driverClassName`, `username`, `password`, `sql`, `quoteHeaders`, `valueQuoteMode`를 전달하면 됩니다. 모든 검증 로직은 기본 툴과 동일하게 적용됩니다.
